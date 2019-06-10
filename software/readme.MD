@@ -1,1 +1,1 @@
-Software to work with Arduino bootloader.
+Software to work with Arduino bootloader. Programmed with Arduino IDE.
