@@ -7,4 +7,4 @@ Easy to use. The device has only one button with three functions. By pressing on
 
 Device will shutdown automatically after 5 minutes. Current consumption is very minimal and does not affect significally to supply battery level. This is accomplished by using CMOS logics and LCD 7-segment display. Also Arduino sleep mode is used with conjunction of power measurement circuit chip enable signal control.
 
-Physical size of device is with casing 13*13cm. PCB is 10*10cm. Dimensions excludes connectors and push button.
+Physical size of device is with casing 13x13cm. PCB is 10x10cm. Dimensions excludes connectors and push button.
