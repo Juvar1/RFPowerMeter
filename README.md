@@ -1,6 +1,12 @@
 # RFPowerMeter
 RF power meter and supply voltage meter for battery powered transmitter.
 
+## First prototype
+
+![Proto](hardware/RFPowerMeter1.jpg)
+
+## 3D image
+
 ![PCB](hardware/RFPowerMeter-v1-1.png)
 
 ## Introduction
