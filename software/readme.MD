@@ -1,3 +1,3 @@
 Software to work with Arduino bootloader. Programmed with Arduino IDE.
 
-Not tested yet! Work-in-progress...
+Tested and working version.
