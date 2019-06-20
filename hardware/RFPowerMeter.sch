@@ -1205,7 +1205,7 @@ F 3 "" H 7400 5600 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	7400 5600 7400 5500
+	7400 5150 7400 5600
 Wire Wire Line
 	7400 5500 7350 5500
 Text Notes 2400 2350 0    60   ~ 0
@@ -1330,4 +1330,25 @@ Wire Wire Line
 Wire Wire Line
 	1350 5200 1350 5000
 Connection ~ 1350 5000
+$Comp
+L C C15
+U 1 1 5D04A764
+P 7050 5150
+F 0 "C15" H 7075 5250 50  0000 L CNN
+F 1 "100nF" H 7075 5050 50  0000 L CNN
+F 2 "Capacitors_ThroughHole:C_Disc_D3_P2.5" H 7088 5000 50  0001 C CNN
+F 3 "" H 7050 5150 50  0000 C CNN
+	1    7050 5150
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	6900 5150 6700 5150
+Wire Wire Line
+	6700 5150 6700 5500
+Connection ~ 6700 5500
+Wire Wire Line
+	7200 5150 7400 5150
+Connection ~ 7400 5500
+Text Notes 6200 4800 0    60   ~ 0
+Internal pull-up loads capacitor
 $EndSCHEMATC
