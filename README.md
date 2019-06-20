@@ -11,7 +11,7 @@ RF power meter and supply voltage meter for battery powered transmitter.
 
 ## Introduction
 
-This meter measures the transmitting power of the radio transmitter and the voltage of the battery used as a power source. Power is displayed in watts and dBm. The device has a three-digit LCD display. The functions are controlled by a push button. The unit will automatically turn off after five minutes if the button is not pressed. By pressing once device wakes from sleep mode and show measured power in wats. By pressing again device switches to dBm mode and show power in dBm. Pressing third time device show measured supply voltage.
+This meter measures the transmitting power of the radio transmitter and the voltage of the battery used as a power source. Power is displayed in watts and dBm. The device has a three-digit LCD display. The functions are controlled by a push button. The unit will automatically turn off after one minute if the button is not pressed. By pressing about 1-2 seconds device wakes from sleep mode and show measured power in watts. By pressing again device switches to dBm mode and show power in dBm. Pressing third time device show measured supply voltage. If voltage is over measuring range display shows '999'.
 
 Comes as a bag of parts kit and is easily assembled if customer can follow the silkscreen indicators and have beginning experience with a soldering iron. Customer will need to read the resistor bands or use a multimeter to determine the resistor sizes.
 
@@ -47,7 +47,7 @@ Physical size of device is with casing 13x13cm. PCB is 10x10cm. Dimensions exclu
 
 ## Development stage
 
-One prototype has been ordered so far with double sided printed circuit board and with through hole components. UNTESTED at this point. Work is in progress. It is designed with KiCad.
+One prototype has been ordered so far with double sided printed circuit board and with through hole components. It is designed with KiCad. Tested and working.
 
 ## Advantages
 
