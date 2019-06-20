@@ -76,12 +76,12 @@ void loop() {
   }
   else if (measureState == 2) { // supply voltage measurement
     float val = analogRead(A0);
-    float voltage = (13.864/1023*val);
+    float voltage = (12.205/1023*val);
     if(val == 1023) voltage = 999;
     result = (long)(voltage * 100);
   }
   
-  int shift = 0;
+  short shift = 0;
 
   if (result < 0) {
     shift = 1;
@@ -89,31 +89,25 @@ void loop() {
     writeToDisplay(1, 0xe, false); // minus sign
   }
   
-  boolean dp2 = true;
+  boolean dp1 = false;
+  boolean dp2 = false;
 
-  if (result > 999) { // no decimal point
+  if (result < 999) {
+    dp1 = true;
+  }
+  if (result > 999) {
+    result = result / 10;
+    dp2 = true;
+  }
+  if (result > 999) {
     result = result / 10;
     dp2 = false;
-  } 
-  if (result > 999) { // dp2 active
-    result = result / 10;
-    writeToDisplay(1+shift, result / 100, false);
-    writeToDisplay(2+shift, (result % 100) / 10, dp2);
-  } 
-  else if (result >= 100) { // dp1 active
-    writeToDisplay(1+shift, result / 100, true);
-    writeToDisplay(2+shift, (result % 100) / 10, false);
-  } 
-  else if (result >= 10) {
-    writeToDisplay(1+shift, 0, true);
-    writeToDisplay(2+shift, result / 10, false);
   }
-  else if (result >= 0) {
-    writeToDisplay(1+shift, 0, true);
-    writeToDisplay(2+shift, 0, false);
-  }
-  if (shift == 0) { writeToDisplay(3, result % 10, false); }
-  
+
+  writeToDisplay(1 + shift, (int)(result / 100), dp1);
+  writeToDisplay(2 + shift, (int)((result % 100) / 10), dp2);
+  if (shift == 0) writeToDisplay(3, (int)(result % 10), false);
+
   //if 1 minute is up from last button press
   if (millis() - shutdownDelay >= 60000) {
     writeToDisplay(1,0xf,false);
