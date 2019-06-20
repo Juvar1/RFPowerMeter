@@ -43,7 +43,9 @@ Physical size of device is with casing 13x13cm. PCB is 10x10cm. Dimensions exclu
 
 ## Circuit diagram
 
-![circuit diagram](hardware/circuit2.png)
+Revision 3: Improved noise immunity.
+
+![circuit diagram](hardware/circuit3.png)
 
 ## Development stage
 
@@ -55,7 +57,7 @@ Ease of use. The device has only one button with three functions. ’Plug-and-pl
 
 ## Other similar devices
 
-Surecom SW-102 Digital Antenna Power & SWR Meter VHF/UHF 125-525MHz.
+Surecom SW-102 Digital Antenna Power & SWR Meter VHF/UHF 125-525MHz. Used for reference and calibration.
 
 ## Soldering
 
