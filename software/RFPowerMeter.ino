@@ -6,7 +6,7 @@
  * Author: jpvarjonen@gmail.com
  * Copyright (C) 2019 Juha-Pekka Varjonen
  * 
- * Goes to sleep and wakes every 1s to check button state
+ * Goes to sleep and wakes every 2s to check button state
  */
 
 #include <avr/sleep.h>
@@ -23,61 +23,62 @@ unsigned long shutdownDelay = 0;
 
 void setup() {
   // power up settings
-  wdt_enable(WDTO_1S);
-  
+  wdt_enable(WDTO_2S);
+
+  // display frequency always on
+  TCCR2A = B00000000;
+  TCCR2B = B00000110; //61Hz
+  analogWrite(3,128); // 50% duty cycle
+
+  // define outputs, default output state is low
+  pinMode(0,OUTPUT);  // BCD2
+  pinMode(1,OUTPUT);  // BCD1
+  pinMode(2,OUTPUT);  // BCD3
+  pinMode(4,OUTPUT);  // BCD0
+  pinMode(6,OUTPUT);  // P1
+  pinMode(7,OUTPUT);  // ST1
+  pinMode(8,OUTPUT);  // P2
+  pinMode(9,OUTPUT);  // ENB
+  pinMode(A4,OUTPUT); // ST2
+  pinMode(A5,OUTPUT); // ST3
+
   pinMode(13,INPUT_PULLUP); //button
-  if (!digitalRead(13)) {
-    // if pressed then wake up
-    // enable display frequency
-    TCCR2B = (TCCR2B & B11111000) | B00000111; // for PWM frequency of 30.64 Hz
-    pinMode(3,OUTPUT); // display frequency
-    analogWrite(3,128); // 50% duty cycle
-    // define outputs
-    pinMode(0,OUTPUT); // BCD2
-    pinMode(1,OUTPUT); // BCD1
-    pinMode(2,OUTPUT); // BCD3
-    pinMode(4,OUTPUT); // BCD0
-    pinMode(6,OUTPUT); // P1
-    pinMode(7,OUTPUT); // ST1
-    pinMode(8,OUTPUT); // P2
-    pinMode(9,OUTPUT); // ENB
-    pinMode(A4,OUTPUT); // ST2
-    pinMode(A5,OUTPUT); // ST3
+  if (!digitalRead(13)) { // if pressed then wake up
     // set analog reference voltage to external
     analogReference(EXTERNAL); // 2.5V set by hardware
     // activate measurement
     digitalWrite(9, HIGH);
   } else {
-    // if not pressed then go to sleep
+    // if not pressed then go back to sleep
     goToSleep();
   }
 }
 
 void loop() {
-  // wait 5 minutes and after that goes to sleep
+
   wdt_reset(); // prevent sleep
-  // how many times button has pressed
-  // do action regarding of that
-  // button also resets the 5 min timeout
 
-  changeReading(); // read button state
+  changeReading(); // read button state, takes >500ms
 
-  int result = 0; // decimal point removed with '* 100'
+  wdt_reset(); // prevent sleep
+
+  long result = 0; // decimal point removed with '* 100'
   if (measureState == 0) { // RF power in watts
     float val = analogRead(A1);
     float PdBm = 40*((2.5/1023*val)-1);
     float PW = pow(10,(PdBm/10))/1000;
-    result = (int)(PW * 100);
+    result = (long)(PW * 100);
   }
   else if (measureState == 1) { // RF power in dBm
     float val = analogRead(A1);
     float PdBm = 40*((2.5/1023*val)-1);
-    result = (int)(PdBm * 100);
+    result = (long)(PdBm * 100);
   }
   else if (measureState == 2) { // supply voltage measurement
     float val = analogRead(A0);
     float voltage = (13.864/1023*val);
-    result = (int)(voltage * 100);
+    if(val == 1023) voltage = 999;
+    result = (long)(voltage * 100);
   }
   
   int shift = 0;
@@ -113,8 +114,8 @@ void loop() {
   }
   if (shift == 0) { writeToDisplay(3, result % 10, false); }
   
-  //if 5 minutes is up from last button press
-  if (millis() - shutdownDelay >= 300000) {
+  //if 1 minute is up from last button press
+  if (millis() - shutdownDelay >= 60000) {
     writeToDisplay(1,0xf,false);
     writeToDisplay(2,0xf,false);
     writeToDisplay(3,0xf,false);
@@ -143,12 +144,23 @@ void changeReading() {
       if (buttonState == LOW) {
         measureState++;
         if(measureState > 2) { measureState = 0; }
+        
         // display measurement state 'icon'
-        writeToDisplay(1,0xf,false);
-        writeToDisplay(2,measureState+11,false);
-        writeToDisplay(3,0xf,false);
+        if(measureState == 0) {
+          writeToDisplay(1,0xc,false); //P
+          writeToDisplay(2,0,false);   //0
+          writeToDisplay(3,1,false);   //1
+        } else if(measureState == 1) {
+          writeToDisplay(1,0xc,false); //P
+          writeToDisplay(2,0,false);   //0
+          writeToDisplay(3,2,false);   //2
+        } else if(measureState == 2) {
+          writeToDisplay(1,0xb,false); //H
+          writeToDisplay(2,1,false);   //1
+          writeToDisplay(3,0xf,false); //(blank)
+        }
         delay(500);
-        shutdownDelay = millis();
+        shutdownDelay = millis(); // button resets the timeout
       }
     }
   }
@@ -180,11 +192,11 @@ void writeToDisplay(int disp, int number, boolean dp) {
     digitalWrite(A4, HIGH);
   }
   else if(disp == 3) {digitalWrite(A5, HIGH);}
-  delay(5);
+  delay(15);
   if(disp == 1) {digitalWrite(7, LOW);}
   else if(disp == 2) {digitalWrite(A4, LOW);}
   else if(disp == 3) {digitalWrite(A5, LOW);}
-  delay(5);
+  delay(15);
 }
 
 void goToSleep() {
@@ -196,7 +208,7 @@ void goToSleep() {
   power_twi_disable();
   power_timer0_disable();
   power_timer1_disable();
-  power_timer2_disable();
+  //power_timer2_disable();
   power_adc_disable();
   // go to sleep (watchdog will restart)
   sleep_mode();
