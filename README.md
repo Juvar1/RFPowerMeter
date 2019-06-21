@@ -3,9 +3,13 @@ RF power meter and supply voltage meter for battery powered transmitter.
 
 ## First prototype
 
+Version 1.0
+
 ![Proto](hardware/RFPowerMeter1.jpg)
 
 ## 3D image
+
+Version 1.1
 
 ![PCB](hardware/RFPowerMeter-v1-1.png)
 
@@ -43,7 +47,8 @@ Physical size of device is with casing 13x13cm. PCB is 10x10cm. Dimensions exclu
 
 ## Circuit diagram
 
-Revision 3: Improved noise immunity.
+Revision 3: Improved supply line and button noise immunity.
+<br>Revision 2: Improved measuring circuit noise immunity.
 
 ![circuit diagram](hardware/circuit3.png)
 
@@ -67,7 +72,7 @@ The project requires no special soldering skills. All components are their throu
 
 All parts are open source. The program is solely written in C++. The program is very simple and with its 200 lines of code it uses only 4.6kB of program memory. AtMega328P-PU chip is used.
 
-The bootloader must first be programmed using external programmer. I personally like to use Arduino™ as ISP and Arduino™ IDE. Be sure to choose the Arduino™ Nano from the Tools→Board menu. After installing the bootloader, the program can be uploaded using same setup.
+The bootloader must first be programmed using external programmer. I personally like to use Arduino™ as ISP and Arduino™ IDE. Be sure to choose the Arduino™ Uno from the Tools→Board menu. After installing the bootloader, the program can be uploaded using same setup.
 
 Program does not use any external libraries. Only standard built-in power saving related libraries are used.
 
