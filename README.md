@@ -64,6 +64,8 @@ Ease of use. The device has only one button with three functions. ’Plug-and-pl
 
 Surecom SW-102 Digital Antenna Power & SWR Meter VHF/UHF 125-525MHz. Used for reference and calibration.
 
+![Reference meter](hardware/referenceMeter1.jpg)
+
 ## Soldering
 
 The project requires no special soldering skills. All components are their through hole versions.
